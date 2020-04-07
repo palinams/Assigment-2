@@ -1,0 +1,80 @@
+import java.util.*;
+
+public class rabbits {
+
+    static long ImmortalRabbits (int n, int k)  {
+        long ctr = 2;                                           // rabbits' counter
+        while (n>0) {
+            ctr = ctr + ctr/2*k;
+            n--;
+        }
+        return ctr;
+    }
+
+    static long MortalRabbits (int n, int k, int m) {
+        Random generator = new Random();
+        int ctr_m = 1;
+        int ctr_f = 1;
+        int[] mort_f = new int[n];                // tablica przechowująca informacje ile samic umiera po danym cyklu
+        int[] mort_m = new int[n];                // tablica przechowująca informacje ile samców umiera po danym cyklu
+        for (int i=0; i<n; i++) {
+            mort_m[i] = 0;
+            mort_f[i] = 0;
+        }
+        int ctr = 0;
+        int ctr_mort = 0;
+        while (n>0) {
+            if (ctr_f>=ctr_m) {
+                ctr = ctr_m*k;
+                for (int i=0; i<ctr; i++) {
+                    if(generator.nextInt(2) == 1) {
+                        ctr_m++;
+                        if (ctr_mort+m<n) {
+                            mort_m[ctr_mort + m]++;
+                        }
+                    } else {
+                        ctr_f++;
+                        if (ctr_mort+m<n) {
+                            mort_f[ctr_mort + m]++;
+                        }
+                    }
+                }
+            } else {
+                ctr = ctr_f*k;
+                for (int i=0; i<ctr; i++) {
+                    if(generator.nextInt(2) == 1) {
+                        ctr_m++;
+                        if (ctr_mort+m<n) {
+                            mort_m[ctr_mort + m]++;
+                        }
+                    } else {
+                        ctr_f++;
+                        if (ctr_mort+m<n) {
+                            mort_f[ctr_mort + m]++;
+                        }
+                    }
+                }
+            }
+            ctr_f -= mort_f[ctr_mort];
+            ctr_m -= mort_m[ctr_mort];
+            n--;
+            ctr_mort++;
+        }
+        return ctr_f+ctr_m;
+    }
+
+
+
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int n = scan.nextInt();  // n-iteracje
+        int k = scan.nextInt();  // k-liczba króliczków na parę
+        int m = scan.nextInt();  // m-długość życia króliczka
+
+        System.out.println(ImmortalRabbits(n, k));
+        System.out.println(MortalRabbits(n, k, m));
+
+        scan.close();
+    }
+}
