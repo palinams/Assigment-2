@@ -27,7 +27,7 @@ public class rabbits {
             if (ctr_f>=ctr_m) {
                 ctr = ctr_m*k;
                 for (int i=0; i<ctr; i++) {
-                    if(generator.nextInt(2) == 1) {
+                    if(generator.nextInt(2) == 1) {                 //losowanie płci (1=samiec, 0=samica)
                         ctr_m++;
                         if (ctr_mort+m<n) {
                             mort_m[ctr_mort + m]++;
